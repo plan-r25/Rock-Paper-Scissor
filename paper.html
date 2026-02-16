@@ -1,194 +1,162 @@
-<!DOCTYPE html>
+<!DCOTYPE html>
 <html lang="en">
   <head>
-    <meta charset = "utf8">
-    <meta name = "viewport", width="device - width, initial= 1.0">
+    <meta charset="utf8">
+    <meta name="viewport" width="device-width" initial="1.0">
     <title>Rock Paper Scissor Game</title>
-  </head>
-  <style>
-    body {
-      text-align: center;
-    }
-    .container {
-      border: 1px solid black;
-      border-radius: 5px;
-      padding: 30px;
-    }
-    .score-board {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-    }
-    .score {
-      background-color: black;
-      color: white;
-      padding: 10px;
-    }
-    .score p {
-      color: grey;
-    }
-    .score span {
-      color:white;
-    }
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
-      
-    }
-    button {
-      padding: 4px 44px;
+    <style>
+      body {
+        height: 100vh;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        padding: 20px;
+      }
+      .score-board {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      .score {
+        background-color: black;
+        padding: 15px;
+      }
+      .score p {
+        color: grey;
+      }
+      .score span {
+        color: white;
+      }
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      button {
+        padding: 6px 28px;
+      }
 
-    }
-  </style>
+    </style>
+  </head>
   <body>
-    <h1>Choose your choice</h1>
+    <button id="play-again">Play Again</button>
+    <h1>Choose Your Choice</h1>
     <div class="container">
       <div class="score-board">
-        <div class="score" >
+        <div class="score">
           <p>Human Score: <span id="human-score">0</span></p>
         </div>
-        <div class="score" >
+        <div class="score">
           <p>Computer Score: <span id="computer-score">0</span></p>
         </div>
       </div>
-      <p id="result"></p>
-      <div class="btn">
+      <h3 id="result"></h3>
+      <div class="buttons">
         <button id="rock">Rock</button>
         <button id="paper">Paper</button>
         <button id="scissor">Scissor</button>
       </div>
     </div>
-  <script>
-  console.log("Hello Player!");
+    <script>
+      const humanScore = document.querySelector("#human-score");
+      const computerScore = document.querySelector("#computer-score");
+      const result = document.querySelector("#result");
+      const buttons = document.querySelectorAll("button");
+      const btn = document.querySelector("#play-again");
 
-  const humanScore = document.querySelector("#human-score")
-  const computerScore =document.querySelector("#computer-score")
-  const result = document.querySelector("#result");
-  const buttons = document.querySelectorAll("button")
-  
-  
-  //Get the computer to generate random choice
-  //We will use Math.random
+      let humanPoints = Number(humanScore.textContent);
+      let computerPoints = Number(computerScore.textContent);
+      let round = 0; //this is for console
+      let gameOver = false;
+      btn.style.display = 'none';
 
-  let current = Number(humanScore.textContent);
-  let current1 = Number(computerScore.textContent);
-  let round = 0;
-  let gameOver = false;
-  
- 
-
-  function getComputerChoice() {
-    const r = Math.random();
-    let choice = '';
-    if (r < 1/3) {
-      choice = 'rock';
-    } else if ( r < 2/3) {
-      choice = 'paper';
-    } else {
-      choice = 'scissor';
-    }
-    return choice;
-  }
-
-  //we use event listener to get the user choice
-  const clicked = buttons.forEach(button => {
-     button.addEventListener('click', () => {
-      const humanMove = button.id;
-      const computerSelection = getComputerChoice();
-      playRound(humanMove, computerSelection)
-      if (gameOver) return;
-      console.log("The user clicked:", button.id);
-    })
-  });
-
-
-  //We are going to combine those two above functions
-  //Compare the two choices and declare a winner
-  //Store their wins
-  function playRound(human, computer) {
-    if (human === computer) {
-      round++
-      result.textContent = `It's a tie, you both choose ${computer}`
-      console.log(`Round ${round}`)
-      console.log('tie');
-      console.log('You choose:', human);
-      console.log('computer choose:', computer);
-      console.log("Your score:", current);
-      console.log("computer score:", current1);
-      return 'tie';
-    }
-    if (
-     (human === 'rock' && computer === 'scissor') || 
-     (human === 'paper' && computer === 'rock') || 
-     (human === 'scissor' && computer === 'paper')
-    ) {
-      current++; 
-      round++
-      humanScore.textContent = current;
-       if (current === 5) {
-        result.textContent = "You win 🎉";
-        gameOver = true;
-        humanScore.textContent = 0;
-        computerScore.textContent = 0;
-      } else {
-      result.textContent = `You win: ${human} beats ${computer}`
+      //we use math.random to get computer choice
+      function getComputerChoice() {
+        const r = Math.random();
+        let choice = '';
+        if (r < 1/3) {
+          choice = 'rock'
+        } else if (r < 2/3) {
+          choice = 'paper'
+        } else if (r < 1) {
+          choice = 'scissor'
+        }
+        return choice;
       };
-      console.log(`Round ${round}`)
-      console.log('You choose:', human);
-      console.log('computer choose:', computer);
-      console.log(`You win ${human} beats ${computer}`);
-      console.log("Your score:", current);
-      console.log("computer score:", current1);
-      return human
-    } else {
-      current1++;
-      round++
-      computerScore.textContent = current1;
-         if (current1 === 5) {
-        result.textContent = "You lose";
-        gameOver = true;
+
+   
+
+      //we'll listen for the user buttons at once
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          if (gameOver) return;
+          const computerSelection = getComputerChoice();
+          getGameLogic(button.id, computerSelection)
+        })
+      });
+
+         //we add a listener for play again
+      btn.addEventListener("click", () => {
         humanScore.textContent = 0;
         computerScore.textContent = 0;
-      } else {
-      result.textContent = `You lose: ${computer} beats ${human}`
-      }
-      console.log(`Round ${round}`)
-      console.log('You choose:', human);
-      console.log('computer choose:', computer);
-      console.log(`You lose ${computer} beats ${human}`);
-      console.log("Your score:", current);
-      console.log("Computer score:", current1);
-      return computer;
-    }
-  };
+        result.textContent = '';
+        gameOver = false;
+        btn.style.display = 'none';
+      });
 
-    
+      //we'll set up the game logic
+      function getGameLogic(human, computer) {
+        if (human === computer) {
+          round++;
+          console.log('Round:',round);
+          result.textContent = `It's a tie, you both choose ${computer}`;
+          console.log("you choose:", human)
+          console.log("Computer choose:", computer)
+        } else if (
+          (human === 'rock' && computer === 'scissor')
+          || (human === 'paper' && computer === 'rock')
+          || (human === 'scissor' && computer === 'paper')
+        ) {
+          round++;
+          humanPoints++
+          humanScore.textContent = humanPoints;
+          if (humanPoints === 5) {
+            result.textContent = `You win 🎉`;
+            gameOver = true;
+            btn.style.display = 'block';
+          } else {
+          result.textContent = `You win: ${human} beats ${computer}`;
+          btn.style.display = 'none';
+          }
+          console.log('Round:',round);
+          console.log("you choose:", human);
+          console.log("Computer choose:", computer);
+          return human;
+        } else {
+          round++;
+          computerPoints++;
+          computerScore.textContent = computerPoints;
+          if (computerPoints === 5) {
+            result.textContent = `You loose 😒`;
+            gameOver = true;
+            btn.style.display = 'block';
+          } else {
+          result.textContent = `You loose: ${computer} beats ${human}`;
+          btn.style.display = 'none';
+          }
+          console.log('Round:',round);
+          console.log("you choose:", human);
+          console.log("Computer choose:", computer);
+          return computer;
+        }
+      };
+    </script>
+  </body>
 
-     
-
-
-
- /* (async function() {
-    /*const delay = (ms) => new Promise(res => setTimeout(res, ms));
-    for (let i = 1; i <= 5; i++) {
-      const  humanSelection = getHumanChoice();
-      if (humanSelection === null) return;
-      
-    } 
-
-      
-      //await delay(2000);
-    
-
-    if (humanScore > computerScore) {
-      console.log("You win 🎉")
-    } else {
-      console.log("You loose ")
-    }
-  })(); */
-  </script>
- </body>
 </html>
